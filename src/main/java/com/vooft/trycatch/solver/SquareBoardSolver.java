@@ -76,7 +76,6 @@ public class SquareBoardSolver implements AbstractSolver {
                 underAttackSub.addAll(possibleMovements);
 
                 List<Point> restSquaresSub = new ArrayList<>(restSquares);
-                //restSquaresSub.remove(possibleSquare);
                 restSquaresSub.removeAll(possibleMovements);
 
                 Map<Point, AbstractPiece> filledPiecesSub = new HashMap<>(filledPieces);
