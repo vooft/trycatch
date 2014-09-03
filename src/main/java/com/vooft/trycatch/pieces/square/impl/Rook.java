@@ -1,7 +1,5 @@
 package com.vooft.trycatch.pieces.square.impl;
 
-import com.vooft.trycatch.board.SquareChessBoard;
-import com.vooft.trycatch.common.BoardSize;
 import com.vooft.trycatch.common.Point;
 import com.vooft.trycatch.pieces.PieceType;
 import com.vooft.trycatch.pieces.square.SquareBoardPiece;
@@ -21,28 +19,8 @@ public class Rook extends SquareBoardPiece {
     public Set<Point> getMovementsForPoint(Point point) {
         Set<Point> result = new HashSet<>();
 
-        SquareChessBoard board = (SquareChessBoard) this.board;
-        BoardSize size = board.getBoardSize();
-
-        // left
-        for(int x=point.getX()-1, y=point.getY(); x>=0; x--) {
-            result.add(new Point(x, y));
-        }
-
-        // top
-        for(int x=point.getX(), y=point.getY()-1; y>=0; y--) {
-            result.add(new Point(x, y));
-        }
-
-        // right
-        for(int x=point.getX()+1, y=point.getY(); x<size.getWidth(); x++) {
-            result.add(new Point(x, y));
-        }
-
-        // bottom
-        for(int x=point.getX(), y=point.getY()+1; y<size.getHeight(); y++) {
-            result.add(new Point(x, y));
-        }
+        result.addAll(getHorizontalMovementsForPoint(point));
+        result.addAll(getVerticalMovementsForPoint(point));
 
         return result;
     }
