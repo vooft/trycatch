@@ -18,6 +18,8 @@ public class SquareBoardSolver implements AbstractSolver {
 
     @Override
     public Set<Map<Point, AbstractPiece>> solve(List<AbstractPiece> pieces) {
+        Collections.sort(pieces);
+
         List<Point> boardSquares = new ArrayList<>();
 
         int width = board.getBoardSize().getWidth();
@@ -28,13 +30,17 @@ public class SquareBoardSolver implements AbstractSolver {
             }
         }
 
-        return solveRecursively(boardSquares, pieces, new HashSet<Point>(), new HashMap<Point, AbstractPiece>());
+        return solveRecursively(boardSquares, pieces,
+                new HashSet<Point>(), new HashMap<Point, AbstractPiece>(),
+                null, null);
     }
 
     public Set<Map<Point, AbstractPiece>> solveRecursively(List<Point> restSquares,
                                                      List<AbstractPiece> restPieces,
                                                      Set<Point> underAttack,
-                                                     Map<Point, AbstractPiece> filledPieces) {
+                                                     Map<Point, AbstractPiece> filledPieces,
+                                                     Point previousPoint,
+                                                     AbstractPiece previousPiece) {
         Set<Map<Point, AbstractPiece>> result = new HashSet<>();
 
         Set<Point> filledSquares = filledPieces.keySet();
@@ -43,8 +49,17 @@ public class SquareBoardSolver implements AbstractSolver {
         if(restPiecesSub.isEmpty()==false && restSquares.isEmpty()==false) {
             AbstractPiece currentPiece = restPiecesSub.remove(0);
 
+            int startIndex = 0;
+            if(previousPoint!=null) {
+                startIndex = restSquares.indexOf(previousPoint);
+                restSquares.remove(startIndex);
+            }
+
+            if(previousPiece==null || currentPiece.equals(previousPiece)==false)
+                startIndex = 0;
+
             Set<Point> possibleSquares = new HashSet<>();
-            for (int i = 0; i < restSquares.size(); i++) {
+            for (int i = startIndex; i < restSquares.size(); i++) {
                 Point currentSquare = restSquares.get(i);
                 Set<Point> possibleMovements = currentPiece.getMovementsForPoint(currentSquare);
                 if(Collections.disjoint(possibleMovements, filledSquares)
@@ -61,13 +76,15 @@ public class SquareBoardSolver implements AbstractSolver {
                 underAttackSub.addAll(possibleMovements);
 
                 List<Point> restSquaresSub = new ArrayList<>(restSquares);
-                restSquaresSub.remove(possibleSquare);
+                //restSquaresSub.remove(possibleSquare);
                 restSquaresSub.removeAll(possibleMovements);
 
                 Map<Point, AbstractPiece> filledPiecesSub = new HashMap<>(filledPieces);
                 filledPiecesSub.put(possibleSquare, currentPiece);
 
-                result.addAll(solveRecursively(restSquaresSub, restPiecesSub, underAttackSub, filledPiecesSub));
+                result.addAll(solveRecursively(restSquaresSub, restPiecesSub,
+                        underAttackSub, filledPiecesSub,
+                        possibleSquare, currentPiece));
             }
 
         }

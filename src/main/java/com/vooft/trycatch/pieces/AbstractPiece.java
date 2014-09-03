@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * Created by vooft on 01.09.14.
  */
-public abstract class AbstractPiece {
+public abstract class AbstractPiece implements Comparable<AbstractPiece> {
     protected PieceType type;
     protected AbstractChessBoard board;
 
@@ -51,5 +51,10 @@ public abstract class AbstractPiece {
         int result = type != null ? type.hashCode() : 0;
         result = 31 * result + (board != null ? board.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public int compareTo(AbstractPiece o) {
+        return type.compareTo(o.type);
     }
 }
