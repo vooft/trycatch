@@ -9,12 +9,12 @@ import org.junit.Test;
 
 import static org.hamcrest.Matchers.instanceOf;
 
-public class SimplePieceFactoryTest {
-    private SimplePieceFactory factory;
+public class SquareBoardPieceFactoryTest {
+    private SquareBoardPieceFactory factory;
 
     @Before
     public void setUp() throws Exception {
-        factory = new SimplePieceFactory(new SquareChessBoard(new BoardSize(2, 2)));
+        factory = new SquareBoardPieceFactory(new SquareChessBoard(new BoardSize(2, 2)));
     }
 
     @Test

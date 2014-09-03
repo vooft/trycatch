@@ -20,7 +20,7 @@ public class SquareChessBoard implements AbstractChessBoard {
     @Override
     public AbstractPieceFactory getPieceFactory() {
         if(pieceFactory==null) {
-            pieceFactory = new SimplePieceFactory(this);
+            pieceFactory = new SquareBoardPieceFactory(this);
         }
 
         return pieceFactory;

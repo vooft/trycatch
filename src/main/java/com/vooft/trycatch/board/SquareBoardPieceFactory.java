@@ -8,10 +8,10 @@ import com.vooft.trycatch.pieces.PieceType;
 /**
  * Created by vooft on 01.09.14.
  */
-public class SimplePieceFactory implements AbstractPieceFactory {
-    private AbstractChessBoard board;
+public class SquareBoardPieceFactory implements AbstractPieceFactory {
+    private SquareChessBoard board;
 
-    public SimplePieceFactory(AbstractChessBoard board) {
+    public SquareBoardPieceFactory(SquareChessBoard board) {
         this.board = board;
     }
 
