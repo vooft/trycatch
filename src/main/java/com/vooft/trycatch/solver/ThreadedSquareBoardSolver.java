@@ -14,14 +14,14 @@ import java.util.concurrent.Future;
  */
 public class ThreadedSquareBoardSolver implements AbstractSolver {
     private SquareChessBoard board;
-    private int threadCount = 1;
+    private int threadsCount = 1;
 
     public ThreadedSquareBoardSolver(SquareChessBoard board) {
         this.board = board;
     }
 
-    public void setThreadCount(int threadCount) {
-        this.threadCount = threadCount;
+    public void setThreadsCount(int threadsCount) {
+        this.threadsCount = threadsCount;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ThreadedSquareBoardSolver implements AbstractSolver {
             }
         }
 
-        ExecutorService service = Executors.newFixedThreadPool(threadCount);
+        ExecutorService service = Executors.newFixedThreadPool(threadsCount);
         List<Future<?>> futures = new ArrayList<>();
 
         // this code is similar to solveRecursively, but each of iteration we'll run in queue of ExecutorService

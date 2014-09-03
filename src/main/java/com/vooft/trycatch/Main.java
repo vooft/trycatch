@@ -89,7 +89,7 @@ public class Main {
         System.out.println("Threads count: " + threadsCount);
 
         ThreadedSquareBoardSolver solver = new ThreadedSquareBoardSolver(board);
-        solver.setThreadCount(threadsCount);
+        solver.setThreadsCount(threadsCount);
 
         Set<Map<Point, AbstractPiece>> result = solver.solve(pieces);
 
