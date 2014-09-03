@@ -29,6 +29,7 @@ public class ThreadedSquareBoardSolver implements AbstractSolver {
         final Set<Map<Point, AbstractPiece>> result =
                 Collections.synchronizedSet(new HashSet<Map<Point, AbstractPiece>>());
 
+        // we will not do anything if there're nothing
         if(pieces.isEmpty())
             return result;
 
@@ -47,10 +48,10 @@ public class ThreadedSquareBoardSolver implements AbstractSolver {
         ExecutorService service = Executors.newFixedThreadPool(threadCount);
         List<Future<?>> futures = new ArrayList<>();
 
+        // this code is similar to solveRecursively, but each of iteration we'll run in queue of ExecutorService
         final List<AbstractPiece> restPiecesSub = new ArrayList<>(pieces);
         final AbstractPiece currentPiece = restPiecesSub.remove(0);
 
-        // check all the branches
         for (final Point possibleSquare : boardSquares) {
             Set<Point> possibleMovements = currentPiece.getMovementsForPoint(possibleSquare);
 
@@ -68,9 +69,12 @@ public class ThreadedSquareBoardSolver implements AbstractSolver {
                 public void run() {
                     System.out.println("Started execution: " + possibleSquare);
 
-                    result.addAll(solveRecursively(restSquaresSub, restPiecesSub,
+                    Set<Map<Point, AbstractPiece>> threadResult = solveRecursively(restSquaresSub, restPiecesSub,
                             underAttackSub, filledPiecesSub,
-                            possibleSquare, currentPiece));
+                            possibleSquare, currentPiece);
+
+                    if(threadResult!=null)
+                        result.addAll(threadResult);
 
                     System.out.println("Finished execution " + possibleSquare);
                 }
@@ -91,12 +95,23 @@ public class ThreadedSquareBoardSolver implements AbstractSolver {
         return result;
     }
 
+    /**
+     *
+     * @param restSquares rest of squares which are not under attack or occupied by pieces
+     * @param restPieces rest of pieces are need to place on board
+     * @param underAttack list of under attack squared
+     * @param filledPieces occupied squares and corresponding pieces
+     * @param previousPoint previous point
+     * @param previousPiece previous piece to skip branch of graph which is already handled
+     * @return
+     */
     public Set<Map<Point, AbstractPiece>> solveRecursively(List<Point> restSquares,
                                                            List<AbstractPiece> restPieces,
                                                            Set<Point> underAttack,
                                                            Map<Point, AbstractPiece> filledPieces,
                                                            Point previousPoint,
                                                            AbstractPiece previousPiece) {
+        // we will create this set only if we really need it to reduce memory consumption
         Set<Map<Point, AbstractPiece>> result = null;
 
         Set<Point> filledSquares = filledPieces.keySet();
@@ -106,11 +121,14 @@ public class ThreadedSquareBoardSolver implements AbstractSolver {
             AbstractPiece currentPiece = restPiecesSub.remove(0);
 
             int startIndex = 0;
+
+            // let's try to skip some squares if we already handled it
             if(previousPoint!=null) {
                 startIndex = restSquares.indexOf(previousPoint);
                 restSquares.remove(startIndex);
             }
 
+            // we don't need to skip some of squares
             if(previousPiece==null || currentPiece.equals(previousPiece)==false)
                 startIndex = 0;
 
@@ -124,7 +142,7 @@ public class ThreadedSquareBoardSolver implements AbstractSolver {
                 }
             }
 
-            // check all the branches
+            // check all the possible branches
             for (Point possibleSquare : possibleSquares) {
                 Set<Point> possibleMovements = currentPiece.getMovementsForPoint(possibleSquare);
 
@@ -132,7 +150,6 @@ public class ThreadedSquareBoardSolver implements AbstractSolver {
                 underAttackSub.addAll(possibleMovements);
 
                 List<Point> restSquaresSub = new ArrayList<>(restSquares);
-                //restSquaresSub.remove(possibleSquare);
                 restSquaresSub.removeAll(possibleMovements);
 
                 Map<Point, AbstractPiece> filledPiecesSub = new HashMap<>(filledPieces);
@@ -141,6 +158,7 @@ public class ThreadedSquareBoardSolver implements AbstractSolver {
                 Set<Map<Point, AbstractPiece>> subResult = solveRecursively(restSquaresSub, restPiecesSub,
                         underAttackSub, filledPiecesSub,
                         possibleSquare, currentPiece);
+
                 if(subResult!=null) {
                     if(result==null)
                         result = new HashSet<>();
@@ -151,6 +169,7 @@ public class ThreadedSquareBoardSolver implements AbstractSolver {
 
         }
 
+        // if we really at the end of pieces list, we can add it to results
         if(restPieces.isEmpty()) {
             if(result==null)
                 result = new HashSet<>();
