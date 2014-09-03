@@ -41,7 +41,7 @@ public class SquareBoardSolver implements AbstractSolver {
                                                      Map<Point, AbstractPiece> filledPieces,
                                                      Point previousPoint,
                                                      AbstractPiece previousPiece) {
-        Set<Map<Point, AbstractPiece>> result = new HashSet<>();
+        Set<Map<Point, AbstractPiece>> result = null;
 
         Set<Point> filledSquares = filledPieces.keySet();
 
@@ -82,15 +82,25 @@ public class SquareBoardSolver implements AbstractSolver {
                 Map<Point, AbstractPiece> filledPiecesSub = new HashMap<>(filledPieces);
                 filledPiecesSub.put(possibleSquare, currentPiece);
 
-                result.addAll(solveRecursively(restSquaresSub, restPiecesSub,
+                Set<Map<Point, AbstractPiece>> subResult = solveRecursively(restSquaresSub, restPiecesSub,
                         underAttackSub, filledPiecesSub,
-                        possibleSquare, currentPiece));
+                        possibleSquare, currentPiece);
+                if(subResult!=null) {
+                    if(result==null)
+                        result = new HashSet<>();
+
+                    result.addAll(subResult);
+                }
             }
 
         }
 
-        if(restPieces.isEmpty())
+        if(restPieces.isEmpty()) {
+            if(result==null)
+                result = new HashSet<>();
+
             result.add(filledPieces);
+        }
 
         return result;
     }
