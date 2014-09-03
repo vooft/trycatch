@@ -2,7 +2,7 @@ package com.vooft.trycatch.board;
 
 import com.vooft.trycatch.pieces.AbstractPiece;
 import com.vooft.trycatch.pieces.PieceType;
-import com.vooft.trycatch.pieces.square.impl.*;
+import com.vooft.trycatch.pieces.impl.*;
 
 import java.util.HashMap;
 import java.util.Map;

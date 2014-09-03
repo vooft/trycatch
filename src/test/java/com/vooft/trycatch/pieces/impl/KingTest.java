@@ -1,4 +1,4 @@
-package com.vooft.trycatch.pieces.square.impl;
+package com.vooft.trycatch.pieces.impl;
 
 import com.vooft.trycatch.board.SquareChessBoard;
 import com.vooft.trycatch.common.BoardSize;

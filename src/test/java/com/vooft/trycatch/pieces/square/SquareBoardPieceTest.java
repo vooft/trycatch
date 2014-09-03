@@ -5,6 +5,7 @@ import com.vooft.trycatch.board.AbstractPieceFactory;
 import com.vooft.trycatch.common.Point;
 import com.vooft.trycatch.exception.WrongBoardTypeException;
 import com.vooft.trycatch.pieces.PieceType;
+import com.vooft.trycatch.pieces.SquareBoardPiece;
 import org.junit.Before;
 import org.junit.Test;
 

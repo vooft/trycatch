@@ -1,10 +1,10 @@
-package com.vooft.trycatch.pieces.square.impl;
+package com.vooft.trycatch.pieces.impl;
 
 import com.vooft.trycatch.board.SquareChessBoard;
 import com.vooft.trycatch.common.BoardSize;
 import com.vooft.trycatch.common.Point;
 import com.vooft.trycatch.pieces.PieceType;
-import com.vooft.trycatch.pieces.square.SquareBoardPiece;
+import com.vooft.trycatch.pieces.SquareBoardPiece;
 
 import java.util.HashSet;
 import java.util.Set;

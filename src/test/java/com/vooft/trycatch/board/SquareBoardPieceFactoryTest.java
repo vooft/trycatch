@@ -2,7 +2,7 @@ package com.vooft.trycatch.board;
 
 import com.vooft.trycatch.common.BoardSize;
 import com.vooft.trycatch.pieces.PieceType;
-import com.vooft.trycatch.pieces.square.impl.*;
+import com.vooft.trycatch.pieces.impl.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
