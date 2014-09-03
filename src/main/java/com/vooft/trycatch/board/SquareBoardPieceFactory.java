@@ -1,8 +1,11 @@
 package com.vooft.trycatch.board;
 
 import com.vooft.trycatch.pieces.AbstractPiece;
-import com.vooft.trycatch.pieces.square.impl.*;
 import com.vooft.trycatch.pieces.PieceType;
+import com.vooft.trycatch.pieces.square.impl.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -10,32 +13,20 @@ import com.vooft.trycatch.pieces.PieceType;
  */
 public class SquareBoardPieceFactory implements AbstractPieceFactory {
     private SquareChessBoard board;
+    private Map<PieceType, AbstractPiece> pieces = new HashMap<>();
 
     public SquareBoardPieceFactory(SquareChessBoard board) {
         this.board = board;
+
+        pieces.put(PieceType.KING, new King().setBoard(board));
+        pieces.put(PieceType.QUEEN, new Queen().setBoard(board));
+        pieces.put(PieceType.BISHOP, new Bishop().setBoard(board));
+        pieces.put(PieceType.ROOK, new Rook().setBoard(board));
+        pieces.put(PieceType.KNIGHT, new Knight().setBoard(board));
     }
 
     @Override
     public AbstractPiece createPiece(PieceType type) {
-        AbstractPiece result = null;
-        switch (type) {
-            case KING:
-                result = new King();
-                break;
-            case QUEEN:
-                result = new Queen();
-                break;
-            case BISHOP:
-                result = new Bishop();
-                break;
-            case ROOK:
-                result = new Rook();
-                break;
-            case KNIGHT:
-                result = new Knight();
-                break;
-        }
-
-        return result.setBoard(board);
+        return pieces.get(type);
     }
 }
