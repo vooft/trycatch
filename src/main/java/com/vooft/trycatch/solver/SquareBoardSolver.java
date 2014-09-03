@@ -47,7 +47,8 @@ public class SquareBoardSolver implements AbstractSolver {
             for (int i = 0; i < restSquares.size(); i++) {
                 Point currentSquare = restSquares.get(i);
                 Set<Point> possibleMovements = currentPiece.getMovementsForPoint(currentSquare);
-                if(Collections.disjoint(possibleMovements, filledSquares)) {
+                if(Collections.disjoint(possibleMovements, filledSquares)
+                        && underAttack.contains(currentSquare)==false) {
                     possibleSquares.add(currentSquare);
                 }
             }
