@@ -66,13 +66,13 @@ public class ThreadedSquareBoardSolver implements AbstractSolver {
             Future<?> submit = service.submit(new Runnable() {
                 @Override
                 public void run() {
-                    System.out.println("started execution: " + possibleSquare + " at " + new Date());
+                    System.out.println("Started execution: " + possibleSquare);
 
                     result.addAll(solveRecursively(restSquaresSub, restPiecesSub,
                             underAttackSub, filledPiecesSub,
                             possibleSquare, currentPiece));
 
-                    System.out.println("finished for " + possibleSquare + " at " + new Date());
+                    System.out.println("Finished execution " + possibleSquare);
                 }
             });
             futures.add(submit);
