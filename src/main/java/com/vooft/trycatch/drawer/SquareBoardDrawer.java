@@ -30,18 +30,18 @@ public class SquareBoardDrawer extends AbstractBoardDrawer {
         System.out.print("  ");
         for (int i = 0; i < width; i++) {
             char c = (char) (a+i);
-            System.out.print(" " + c);
+            System.out.print("  " + c);
         }
         System.out.println();
 
         System.out.print(" \u2554");
         for (int i = 0; i < width; i++) {
-            System.out.print("\u2550\u2550");
+            System.out.print("\u2550\u2550\u2550");
         }
-        System.out.print("\u2550\u2557\n");
+        System.out.print("\u2550\u2550\u2557\n");
 
         for (int i = 0; i < height; i++) {
-            System.out.print((i+1) + "\u2551 ");
+            System.out.print((i+1) + "\u2551  ");
             for (int j = 0; j < width; j++) {
                 Point p = new Point(i, j);
                 if(pieces.containsKey(p)==false) {
@@ -50,7 +50,7 @@ public class SquareBoardDrawer extends AbstractBoardDrawer {
                     System.out.print(pieces.get(p).toString());
                 }
 
-                System.out.print(" ");
+                System.out.print("  ");
             }
 
             System.out.println("\u2551");
@@ -58,8 +58,8 @@ public class SquareBoardDrawer extends AbstractBoardDrawer {
 
         System.out.print(" \u255A");
         for (int i = 0; i < width; i++) {
-            System.out.print("\u2550\u2550");
+            System.out.print("\u2550\u2550\u2550");
         }
-        System.out.print("\u2550\u255D\n");
+        System.out.print("\u2550\u2550\u255D\n");
     }
 }
