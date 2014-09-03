@@ -36,9 +36,6 @@ public class SimplePieceFactory implements AbstractPieceFactory {
                 break;
         }
 
-        if(result==null)
-            return result;
-
         return result.setBoard(board);
     }
 }
